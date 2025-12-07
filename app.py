@@ -116,11 +116,19 @@ st.markdown("""
         box-shadow: 0 8px 25px rgba(99,102,241,0.15) !important;
         font-family: 'Segoe UI' !important;
         transition: all 0.3s ease !important;
+        color: #6366f1 !important;
+        font-weight: 600;
+    }
+
+    .stTextArea > div > div > textarea::placeholder {
+        color: #a78bfa !important;
+        opacity: 0.7;
     }
 
     .stTextArea > div > div > textarea:focus {
         border-color: #6366f1 !important;
         box-shadow: 0 12px 35px rgba(99,102,241,0.25) !important;
+        color: #7c3aed !important;
     }
 
     /* INPUT LABEL */
@@ -243,15 +251,6 @@ st.markdown(
     "<p class='subtitle'>🔍 Détectez instantanément les messages SPAM avec notre IA avancée</p>",
     unsafe_allow_html=True
 )
-
-# Afficher le logo spam en haut à gauche aggrandi
-try:
-    logo = Image.open("logo_spam.jpg")
-    col_left, col_space = st.columns([1.5, 5])
-    with col_left:
-        st.image(logo, use_container_width=True)
-except:
-    pass
 
 # Zone de saisie avec meilleure présentation
 st.markdown("<div class='main-container'>", unsafe_allow_html=True)
