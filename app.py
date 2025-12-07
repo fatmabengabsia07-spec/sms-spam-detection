@@ -202,15 +202,15 @@ st.markdown("""
     /* RESULTATS */
     .result-spam, .result-ham {
         border-radius: 18px;
-        padding: 3rem;
-        font-size: 1.8rem;
+        padding: 2rem 1.5rem;
+        font-size: 1.5rem;
         font-weight: 800;
         box-shadow: 0 18px 50px rgba(0,0,0,0.18);
         animation: bounceIn 0.8s ease-out;
         text-align: center;
         color: white;
-        margin-top: 40px;
-        margin-bottom: 20px;
+        margin-top: 30px;
+        margin-bottom: 15px;
         letter-spacing: 1px;
         border: 3px solid rgba(255,255,255,0.3);
     }
@@ -287,28 +287,28 @@ with st.sidebar:
     st.markdown("### 📋 Historique & Exemples")
     
     # Exemples
-    st.markdown("#### 📌 Exemples")
+    st.markdown("####  Exemples")
     
     example_spam = "Congratulations! You have won $1000000. Click here to claim your prize NOW!"
     example_ham = "Hi John, the meeting is scheduled for tomorrow at 2 PM. See you then!"
     
-    if st.button("📧 Exemple SPAM", key="spam_btn"):
+    if st.button(" Exemple SPAM", key="spam_btn"):
         st.session_state.example_input = example_spam
     
-    if st.button("✅ Exemple HAM", key="ham_btn"):
+    if st.button(" Exemple HAM", key="ham_btn"):
         st.session_state.example_input = example_ham
     
     st.markdown("---")
     
     # Historique
-    st.markdown("#### 📜 Historique")
+    st.markdown("####  Historique")
     if st.session_state.email_history:
         for i, item in enumerate(reversed(st.session_state.email_history)):
             color = "🔴" if item['result'] == "SPAM" else "🟢"
             st.markdown(f"**{color} {item['result']}**")
             st.caption(item['email'])
         
-        if st.button("🗑️ Effacer l'historique"):
+        if st.button(" Effacer l'historique"):
             st.session_state.email_history = []
             save_history([])
             st.rerun()
@@ -361,7 +361,7 @@ if should_analyze and input_sms.strip():
                 unsafe_allow_html=True
             )
             st.markdown(
-                "<p style='text-align:center; color:#b91c1c; font-weight:600;'>⚠️ Ce message a été identifié comme SPAM</p>",
+                "<p style='text-align:center; color:#b91c1c; font-weight:600;'> Ce message a été identifié comme SPAM</p>",
                 unsafe_allow_html=True
             )
         else:
