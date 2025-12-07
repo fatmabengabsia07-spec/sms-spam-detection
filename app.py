@@ -300,20 +300,20 @@ with st.sidebar:
     
     st.markdown("---")
     
-    # Historique
-    st.markdown("####  Historique")
-    if st.session_state.email_history:
-        for i, item in enumerate(reversed(st.session_state.email_history)):
-            color = "🔴" if item['result'] == "SPAM" else "🟢"
-            st.markdown(f"**{color} {item['result']}**")
+    # Historique - Afficher seulement les SPAM
+    st.markdown("####  Historique SPAM")
+    spam_history = [item for item in st.session_state.email_history if item['result'] == "SPAM"]
+    if spam_history:
+        for i, item in enumerate(reversed(spam_history)):
+            st.markdown(f"**🔴 SPAM**")
             st.caption(item['email'])
         
-        if st.button(" Effacer l'historique"):
-            st.session_state.email_history = []
-            save_history([])
+        if st.button(" Effacer l'historique SPAM"):
+            st.session_state.email_history = [item for item in st.session_state.email_history if item['result'] != "SPAM"]
+            save_history(st.session_state.email_history)
             st.rerun()
     else:
-        st.info("Aucun historique pour le moment")
+        st.info("Aucun SPAM détecté")
 
 
 
