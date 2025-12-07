@@ -25,7 +25,7 @@ download_nltk_data()
 
 st.set_page_config(
     page_title="SPAM MF",
-    layout="centered"
+    layout="wide"
 )
 
 
@@ -41,6 +41,19 @@ def load_model():
 
 tfidf, model = load_model()
 ps = PorterStemmer()
+
+# Initialiser la session pour l'historique
+if 'email_history' not in st.session_state:
+    st.session_state.email_history = []
+
+def add_to_history(email, result):
+    """Ajouter un email à l'historique"""
+    result_text = "SPAM" if result == 1 else "LÉGITIME"
+    st.session_state.email_history.append({
+        'email': email[:50] + '...' if len(email) > 50 else email,
+        'result': result_text,
+        'full_email': email
+    })
 
 def transform_text(text):
     text = text.lower()
@@ -246,11 +259,48 @@ except:
     )
 
 
+# Sidebar - Historique et Exemples
+with st.sidebar:
+    st.markdown("### 📋 Historique & Exemples")
+    
+    # Exemples
+    st.markdown("#### 📌 Exemples")
+    
+    example_spam = "Congratulations! You have won $1000000. Click here to claim your prize NOW!"
+    example_ham = "Hi John, the meeting is scheduled for tomorrow at 2 PM. See you then!"
+    
+    if st.button("📧 Exemple SPAM", key="spam_btn"):
+        st.session_state.example_input = example_spam
+    
+    if st.button("✅ Exemple HAM", key="ham_btn"):
+        st.session_state.example_input = example_ham
+    
+    st.markdown("---")
+    
+    # Historique
+    st.markdown("#### 📜 Historique")
+    if st.session_state.email_history:
+        for i, item in enumerate(reversed(st.session_state.email_history)):
+            color = "🔴" if item['result'] == "SPAM" else "🟢"
+            st.markdown(f"**{color} {item['result']}**")
+            st.caption(item['email'])
+        
+        if st.button("🗑️ Effacer l'historique"):
+            st.session_state.email_history = []
+            st.rerun()
+    else:
+        st.info("Aucun historique pour le moment")
+
+
 
 st.markdown(
     "<p class='subtitle'> Détectez instantanément les messages SPAM avec notre IA avancée</p>",
     unsafe_allow_html=True
 )
+
+# Initialiser l'input de l'exemple
+if 'example_input' not in st.session_state:
+    st.session_state.example_input = ""
 
 col1, col2, col3 = st.columns([0.25, 3.5, 0.25])
 with col2:
@@ -259,8 +309,13 @@ with col2:
         "Entrez le texte à analyser",
         placeholder="Collez votre SMS ou email ici...",
         height=160,
-        label_visibility="collapsed"
+        label_visibility="collapsed",
+        value=st.session_state.example_input
     )
+    
+    # Réinitialiser l'exemple après utilisation
+    if st.session_state.example_input:
+        st.session_state.example_input = ""
 
     st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
     col_btn1, col_btn2, col_btn3 = st.columns([0.8, 1.5, 0.8])
@@ -273,6 +328,9 @@ if analyze_btn and input_sms.strip():
         sms = transform_text(input_sms)
         vector = tfidf.transform([sms])
         result = model.predict(vector)[0]
+
+        # Ajouter à l'historique
+        add_to_history(input_sms, result)
 
         if result == 1:
             st.markdown(
