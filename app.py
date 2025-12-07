@@ -111,20 +111,18 @@ st.markdown("""
         border-radius: 16px !important;
         background: rgba(255,255,255,0.9) !important;
         border: 2px solid #a78bfa !important;
-        font-size: 1.15rem !important;
-        padding: 1.8rem !important;
+        font-size: 1.05rem !important;
+        padding: 1.5rem !important;
         box-shadow: 0 8px 25px rgba(99,102,241,0.15) !important;
         font-family: 'Segoe UI' !important;
         transition: all 0.3s ease !important;
         color: #6366f1 !important;
-        font-weight: 700;
-        line-height: 1.6;
+        font-weight: 600;
     }
 
     .stTextArea > div > div > textarea::placeholder {
         color: #a78bfa !important;
         opacity: 0.7;
-        font-weight: 500;
     }
 
     .stTextArea > div > div > textarea:focus {
@@ -145,9 +143,9 @@ st.markdown("""
     .stButton > button {
         background: linear-gradient(135deg,#6366f1,#7c3aed,#a855f7) !important;
         border-radius: 12px !important;
-        padding: 1.1rem 2.8rem !important;
-        font-size: 1.05rem !important;
-        font-weight: 800;
+        padding: 1rem 2.5rem !important;
+        font-size: 1rem !important;
+        font-weight: 700;
         box-shadow: 0 12px 30px rgba(99,102,241,0.35);
         transition: all 0.3s ease !important;
         color: white !important;
@@ -256,7 +254,7 @@ st.markdown(
 
 col1, col2, col3 = st.columns([0.25, 3.5, 0.25])
 with col2:
-    st.markdown("<h3 style='text-align:center; color:#1e293b; margin-bottom: 10px; font-weight: 800; font-size: 1.5rem;'>Analysez votre message</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align:center; color:#1e293b; margin-bottom: 10px;'>Analysez votre message</h3>", unsafe_allow_html=True)
     input_sms = st.text_area(
         "Entrez le texte à analyser",
         placeholder="Collez votre SMS ou email ici...",
