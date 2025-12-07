@@ -226,24 +226,8 @@ try:
     buffer = io.BytesIO()
     logo.save(buffer, format="PNG")
     img_b64 = base64.b64encode(buffer.getvalue()).decode()
-
-    st.markdown(
-        f"""
-        <div class="custom-header">
-            <div class="custom-header-title">📛 SPAM MF</div>
-            <img src="data:image/png;base64,{img_b64}" class="custom-logo">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 except:
-    st.markdown(
-        """
-        <div class="custom-header">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    pass
 
 
 
