@@ -7,6 +7,8 @@ from PIL import Image
 import base64
 import string
 import time
+import json
+import os
 
 # Télécharger les données NLTK nécessaires
 @st.cache_resource
@@ -42,18 +44,39 @@ def load_model():
 tfidf, model = load_model()
 ps = PorterStemmer()
 
+# Fichier pour stocker l'historique
+HISTORY_FILE = "email_history.json"
+
+# Charger l'historique depuis le fichier
+def load_history():
+    if os.path.exists(HISTORY_FILE):
+        try:
+            with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return []
+    return []
+
+# Sauvegarder l'historique dans le fichier
+def save_history(history):
+    with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
+        json.dump(history, f, ensure_ascii=False, indent=2)
+
 # Initialiser la session pour l'historique
 if 'email_history' not in st.session_state:
-    st.session_state.email_history = []
+    st.session_state.email_history = load_history()
 
 def add_to_history(email, result):
     """Ajouter un email à l'historique"""
     result_text = "SPAM" if result == 1 else "LÉGITIME"
-    st.session_state.email_history.append({
+    new_item = {
         'email': email[:50] + '...' if len(email) > 50 else email,
         'result': result_text,
         'full_email': email
-    })
+    }
+    st.session_state.email_history.append(new_item)
+    # Sauvegarder immédiatement
+    save_history(st.session_state.email_history)
 
 def transform_text(text):
     text = text.lower()
@@ -287,6 +310,7 @@ with st.sidebar:
         
         if st.button("🗑️ Effacer l'historique"):
             st.session_state.email_history = []
+            save_history([])
             st.rerun()
     else:
         st.info("Aucun historique pour le moment")
