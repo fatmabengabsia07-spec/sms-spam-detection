@@ -62,9 +62,10 @@ def save_history(history):
     with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
         json.dump(history, f, ensure_ascii=False, indent=2)
 
-# Initialiser la session pour l'historique
+# Initialiser la session pour l'historique - avec un historique vide par défaut
 if 'email_history' not in st.session_state:
-    st.session_state.email_history = load_history()
+    # Chaque session démarre avec un historique vide (pas d'accès à l'historique précédent)
+    st.session_state.email_history = []
 
 def add_to_history(email, result):
     """Ajouter un email à l'historique"""
@@ -75,8 +76,7 @@ def add_to_history(email, result):
         'full_email': email
     }
     st.session_state.email_history.append(new_item)
-    # Sauvegarder immédiatement
-    save_history(st.session_state.email_history)
+    # Ne pas sauvegarder dans le fichier pour éviter que d'autres utilisateurs voient l'historique
 
 def transform_text(text):
     text = text.lower()
@@ -310,7 +310,6 @@ with st.sidebar:
         
         if st.button(" Effacer l'historique"):
             st.session_state.email_history = []
-            save_history([])
             st.rerun()
     else:
         st.info("Aucun historique pour le moment")
