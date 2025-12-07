@@ -101,7 +101,7 @@ st.markdown("""
         text-align: center;
         font-size: 1.1rem;
         color: #475569;
-        margin-bottom: 30px;
+        margin-bottom: 15px;
         font-weight: 500;
         letter-spacing: 0.3px;
     }
@@ -143,8 +143,8 @@ st.markdown("""
     .stButton > button {
         background: linear-gradient(135deg,#6366f1,#7c3aed,#a855f7) !important;
         border-radius: 12px !important;
-        padding: 1.3rem 3rem !important;
-        font-size: 1.1rem !important;
+        padding: 1rem 2.5rem !important;
+        font-size: 1rem !important;
         font-weight: 700;
         box-shadow: 0 12px 30px rgba(99,102,241,0.35);
         transition: all 0.3s ease !important;
@@ -254,15 +254,15 @@ st.markdown(
 
 col1, col2, col3 = st.columns([0.25, 3.5, 0.25])
 with col2:
-    st.markdown("<h3 style='text-align:center; color:#1e293b;'>Analysez votre message</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align:center; color:#1e293b; margin-bottom: 10px;'>Analysez votre message</h3>", unsafe_allow_html=True)
     input_sms = st.text_area(
         "Entrez le texte à analyser",
         placeholder="Collez votre SMS ou email ici...",
-        height=180,
+        height=160,
         label_visibility="collapsed"
     )
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
     col_btn1, col_btn2, col_btn3 = st.columns([0.8, 1.5, 0.8])
     with col_btn2:
         analyze_btn = st.button(" Analyser", type="primary", use_container_width=True)
