@@ -248,7 +248,7 @@ except:
 
 
 st.markdown(
-    "<p class='subtitle'>🔍 Détectez instantanément les messages SPAM avec notre IA avancée</p>",
+    "<p class='subtitle'> Détectez instantanément les messages SPAM avec notre IA avancée</p>",
     unsafe_allow_html=True
 )
 
@@ -265,10 +265,10 @@ with col2:
     st.markdown("<br>", unsafe_allow_html=True)
     col_btn1, col_btn2, col_btn3 = st.columns([0.8, 1.5, 0.8])
     with col_btn2:
-        analyze_btn = st.button("🚀 Analyser", type="primary", use_container_width=True)
+        analyze_btn = st.button(" Analyser", type="primary", use_container_width=True)
 
 if analyze_btn and input_sms.strip():
-    with st.spinner("⏳ Analyse en cours..."):
+    with st.spinner(" Analyse en cours..."):
         time.sleep(0.5)  # Effet de chargement
         sms = transform_text(input_sms)
         vector = tfidf.transform([sms])
@@ -276,7 +276,7 @@ if analyze_btn and input_sms.strip():
 
         if result == 1:
             st.markdown(
-                '<div class="result-spam">🚨 SPAM DÉTECTÉ 🚨</div>',
+                '<div class="result-spam"> SPAM DÉTECTÉ </div>',
                 unsafe_allow_html=True
             )
             st.markdown(
@@ -285,7 +285,7 @@ if analyze_btn and input_sms.strip():
             )
         else:
             st.markdown(
-                '<div class="result-ham">✅ MESSAGE LÉGITIME ✅</div>',
+                '<div class="result-ham"> MESSAGE LÉGITIME </div>',
                 unsafe_allow_html=True
             )
             st.markdown(
@@ -295,6 +295,6 @@ if analyze_btn and input_sms.strip():
 
 
 st.markdown(
-    '<div class="footer">🔒 Vos données restent privées | ⚡ Analyse instantanée | 🤖 Technologie IA avancée</div>',
+    '<div class="footer"> Vos données restent privées |  Analyse instantanée </div>',
     unsafe_allow_html=True
 )
