@@ -65,15 +65,15 @@ st.markdown("""
         justify-content: space-between;
         align-items: center;
         background: #ffffff;
-        padding: 25px 40px;
-        margin-bottom: 25px;
-        border-radius: 20px;
+        padding: 15px 30px;
+        margin-bottom: 20px;
+        border-radius: 15px;
         box-shadow: 0 8px 30px rgba(0,0,0,0.08);
         animation: fadeInDown 1s ease-out;
     }
 
     .custom-header-title {
-        font-size: 3.4rem;
+        font-size: 2.5rem;
         font-weight: 900;
         background: linear-gradient(135deg,#6366f1,#8b5cf6,#d946ef);
         -webkit-background-clip: text;
@@ -82,12 +82,12 @@ st.markdown("""
     }
 
     .custom-logo {
-    width: 180px;
-    border-radius: 0px !important;
-    box-shadow: none !important;
-    background: transparent !important;
-    padding: 0 !important;
-}
+        width: 120px;
+        border-radius: 0px !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+    }
 
     /* TEXTAREA */
     .stTextArea > div > div > textarea {
@@ -103,18 +103,22 @@ st.markdown("""
     .stButton > button {
         background: linear-gradient(135deg,#6366f1,#7c3aed) !important;
         border-radius: 14px !important;
-        padding: 1.1rem !important;
+        padding: 1.1rem 2.5rem !important;
         font-size: 1.25rem !important;
         font-weight: 700;
         box-shadow: 0 10px 25px rgba(99,102,241,0.25);
         transition: 0.3s;
-        width: 100%;
         color: white !important;
     }
 
     .stButton > button:hover {
         transform: translateY(-4px);
         box-shadow: 0 15px 35px rgba(99,102,241,0.35);
+    }
+
+    .center-button {
+        display: flex;
+        justify-content: center;
     }
 
     /* RESULTATS */
@@ -206,7 +210,9 @@ with col2:
         height=220
     )
 
+    st.markdown('<div class="center-button">', unsafe_allow_html=True)
     analyze_btn = st.button(" Analyser le message", type="primary")
+    st.markdown('</div>', unsafe_allow_html=True)
 
 if analyze_btn and input_sms.strip():
     with st.spinner("Analyse en cours..."):
