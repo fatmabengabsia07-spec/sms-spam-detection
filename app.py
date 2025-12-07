@@ -119,6 +119,16 @@ st.markdown("""
     .center-button {
         display: flex;
         justify-content: center;
+        width: 100%;
+    }
+
+    .center-button > div {
+        display: flex;
+        justify-content: center;
+    }
+
+    .center-button button {
+        width: auto !important;
     }
 
     /* RESULTATS */
@@ -210,9 +220,9 @@ with col2:
         height=220
     )
 
-    st.markdown('<div class="center-button">', unsafe_allow_html=True)
-    analyze_btn = st.button(" Analyser le message", type="primary")
-    st.markdown('</div>', unsafe_allow_html=True)
+col_btn1, col_btn2, col_btn3 = st.columns([1, 1.2, 1])
+with col_btn2:
+    analyze_btn = st.button(" Analyser le message", type="primary", use_container_width=True)
 
 if analyze_btn and input_sms.strip():
     with st.spinner("Analyse en cours..."):
