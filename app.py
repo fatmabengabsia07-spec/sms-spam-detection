@@ -12,13 +12,13 @@ import time
 @st.cache_resource
 def download_nltk_data():
     try:
-        nltk.data.find('tokenizers/punkt')
+        nltk.data.find('tokenizers/punkt_tab')
     except LookupError:
-        nltk.download('punkt')
+        nltk.download('punkt_tab', quiet=True)
     try:
         nltk.data.find('corpora/stopwords')
     except LookupError:
-        nltk.download('stopwords')
+        nltk.download('stopwords', quiet=True)
 
 download_nltk_data()
 
