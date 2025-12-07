@@ -294,11 +294,9 @@ with st.sidebar:
     
     if st.button("📧 Exemple SPAM", key="spam_btn"):
         st.session_state.example_input = example_spam
-        st.session_state.analyze_example = True
     
     if st.button("✅ Exemple HAM", key="ham_btn"):
         st.session_state.example_input = example_ham
-        st.session_state.analyze_example = True
     
     st.markdown("---")
     
@@ -327,8 +325,6 @@ st.markdown(
 # Initialiser les variables de session
 if 'example_input' not in st.session_state:
     st.session_state.example_input = ""
-if 'analyze_example' not in st.session_state:
-    st.session_state.analyze_example = False
 
 col1, col2, col3 = st.columns([0.25, 3.5, 0.25])
 with col2:
@@ -346,8 +342,8 @@ with col2:
     with col_btn2:
         analyze_btn = st.button(" Analyser", type="primary", use_container_width=True)
 
-# Analyser si le bouton est cliqué ou si un exemple est chargé
-should_analyze = analyze_btn or st.session_state.analyze_example
+# Analyser si le bouton est cliqué
+should_analyze = analyze_btn
 
 if should_analyze and input_sms.strip():
     with st.spinner(" Analyse en cours..."):
@@ -358,10 +354,6 @@ if should_analyze and input_sms.strip():
 
         # Ajouter à l'historique
         add_to_history(input_sms, result)
-        
-        # Réinitialiser le flag
-        st.session_state.analyze_example = False
-        st.session_state.example_input = ""
 
         if result == 1:
             st.markdown(
