@@ -236,9 +236,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Zone de saisie avec meilleure présentation
-st.markdown("<div class='main-container'>", unsafe_allow_html=True)
-
 col1, col2, col3 = st.columns([0.25, 3.5, 0.25])
 with col2:
     st.markdown("<h3 style='text-align:center; color:#1e293b;'>Analysez votre message</h3>", unsafe_allow_html=True)
@@ -253,8 +250,6 @@ with col2:
     col_btn1, col_btn2, col_btn3 = st.columns([0.8, 1.5, 0.8])
     with col_btn2:
         analyze_btn = st.button("🚀 Analyser", type="primary", use_container_width=True)
-
-st.markdown("</div>", unsafe_allow_html=True)
 
 if analyze_btn and input_sms.strip():
     with st.spinner("⏳ Analyse en cours..."):
