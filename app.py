@@ -64,8 +64,11 @@ def save_history(history):
 
 # Initialiser la session pour l'historique - avec un historique vide par défaut
 if 'email_history' not in st.session_state:
-    # Chaque session démarre avec un historique vide (pas d'accès à l'historique précédent)
+    # Chaque session démarre avec un historique vide
     st.session_state.email_history = []
+    st.session_state.session_id = time.time()  # ID unique pour chaque session
+elif 'session_id' not in st.session_state:
+    st.session_state.session_id = time.time()
 
 def add_to_history(email, result):
     """Ajouter un email à l'historique"""
@@ -76,7 +79,8 @@ def add_to_history(email, result):
         'full_email': email
     }
     st.session_state.email_history.append(new_item)
-    # Ne pas sauvegarder dans le fichier pour éviter que d'autres utilisateurs voient l'historique
+    # Sauvegarder dans le fichier pour persister la session actuelle
+    save_history(st.session_state.email_history)
 
 def transform_text(text):
     text = text.lower()
@@ -310,6 +314,7 @@ with st.sidebar:
         
         if st.button(" Effacer l'historique"):
             st.session_state.email_history = []
+            save_history([])
             st.rerun()
     else:
         st.info("Aucun historique pour le moment")
@@ -378,3 +383,10 @@ st.markdown(
     '<div class="footer"> Vos données restent privées |  Analyse instantanée </div>',
     unsafe_allow_html=True
 )
+
+# Option pour effacer les données à la fin de la session (bas de page caché)
+with st.expander("⚙️ Paramètres avancés"):
+    if st.button("🔄 Réinitialiser la session"):
+        st.session_state.email_history = []
+        save_history([])
+        st.success("Session réinitialisée !")
