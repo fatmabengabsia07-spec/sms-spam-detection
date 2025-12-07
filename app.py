@@ -9,8 +9,6 @@ import string
 import time
 import json
 import os
-import hashlib
-import uuid
 
 # Télécharger les données NLTK nécessaires
 @st.cache_resource
@@ -47,31 +45,13 @@ tfidf, model = load_model()
 ps = PorterStemmer()
 
 # Fichier pour stocker l'historique
-HISTORY_DIR = "user_histories"
-
-# Créer le répertoire s'il n'existe pas
-if not os.path.exists(HISTORY_DIR):
-    os.makedirs(HISTORY_DIR)
-
-# Générer un ID de session unique pour chaque navigateur
-def get_session_id():
-    """Génère un ID unique basé sur l'adresse IP et l'user-agent du navigateur"""
-    if 'user_session_id' not in st.session_state:
-        # Créer un ID unique pour cette session
-        st.session_state.user_session_id = str(uuid.uuid4())
-    return st.session_state.user_session_id
-
-# Obtenir le fichier d'historique pour cet utilisateur
-def get_history_file():
-    session_id = get_session_id()
-    return os.path.join(HISTORY_DIR, f"history_{session_id}.json")
+HISTORY_FILE = "email_history.json"
 
 # Charger l'historique depuis le fichier
 def load_history():
-    history_file = get_history_file()
-    if os.path.exists(history_file):
+    if os.path.exists(HISTORY_FILE):
         try:
-            with open(history_file, 'r', encoding='utf-8') as f:
+            with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except:
             return []
@@ -79,17 +59,12 @@ def load_history():
 
 # Sauvegarder l'historique dans le fichier
 def save_history(history):
-    history_file = get_history_file()
-    with open(history_file, 'w', encoding='utf-8') as f:
+    with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
         json.dump(history, f, ensure_ascii=False, indent=2)
 
-# Initialiser la session pour l'historique - charger depuis le fichier utilisateur
+# Initialiser la session pour l'historique
 if 'email_history' not in st.session_state:
-    # Charger l'historique depuis le fichier utilisateur si disponible
     st.session_state.email_history = load_history()
-    st.session_state.user_session_id = get_session_id()
-elif 'user_session_id' not in st.session_state:
-    st.session_state.user_session_id = get_session_id()
 
 def add_to_history(email, result):
     """Ajouter un email à l'historique"""
@@ -100,7 +75,7 @@ def add_to_history(email, result):
         'full_email': email
     }
     st.session_state.email_history.append(new_item)
-    # Sauvegarder dans le fichier pour persister la session actuelle
+    # Sauvegarder immédiatement
     save_history(st.session_state.email_history)
 
 def transform_text(text):
@@ -404,10 +379,3 @@ st.markdown(
     '<div class="footer"> Vos données restent privées |  Analyse instantanée </div>',
     unsafe_allow_html=True
 )
-
-# Option pour effacer les données à la fin de la session (bas de page caché)
-with st.expander("⚙️ Paramètres avancés"):
-    if st.button("🔄 Réinitialiser la session"):
-        st.session_state.email_history = []
-        save_history([])
-        st.success("Session réinitialisée !")
