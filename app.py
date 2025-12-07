@@ -62,10 +62,10 @@ def save_history(history):
     with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
         json.dump(history, f, ensure_ascii=False, indent=2)
 
-# Initialiser la session pour l'historique - avec un historique vide par défaut
+# Initialiser la session pour l'historique - charger depuis le fichier
 if 'email_history' not in st.session_state:
-    # Chaque session démarre avec un historique vide
-    st.session_state.email_history = []
+    # Charger l'historique depuis le fichier si disponible
+    st.session_state.email_history = load_history()
     st.session_state.session_id = time.time()  # ID unique pour chaque session
 elif 'session_id' not in st.session_state:
     st.session_state.session_id = time.time()
